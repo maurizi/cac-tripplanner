@@ -120,26 +120,7 @@ CAC.Control.Explore = (function (_, $, Geocoder, MapTemplates, Routing, Typeahea
         // TODO: replace placeholder with value from slider
         var exploreMinutes = 20;
 
-        var mode = UserPreferences.getPreference('mode');
-        var arriveBy = UserPreferences.getPreference('arriveBy');
-
-        // options to pass to OTP as-is
-        var otpOptions = {
-            mode: mode,
-            arriveBy: arriveBy,
-            maxWalkDistance: UserPreferences.getPreference('maxWalk')
-        };
-
-        if (mode.indexOf('BICYCLE') > -1) {
-            // set bike trip optimization option
-            var bikeTriangle = UserPreferences.getPreference('bikeTriangle');
-            bikeTriangle = Utils.getBikeTriangle(bikeTriangle);
-            if (bikeTriangle) {
-                $.extend(otpOptions, {optimize: 'TRIANGLE'}, bikeTriangle);
-            }
-        } else {
-            $.extend(otpOptions, { wheelchair: UserPreferences.getPreference('wheelchair') });
-        }
+        var otpOptions = getOtpOptions();
 
         var date = UserPreferences.getPreference('dateTime');
         date = date ? moment.unix(date) : moment(); // default to now
@@ -172,6 +153,35 @@ CAC.Control.Explore = (function (_, $, Geocoder, MapTemplates, Routing, Typeahea
                 setError('Could not find travelshed.');
             }
         );
+    }
+
+    /**
+     * Get parameters to pass to OpenTripPlanner, based on current settings
+     *
+     * @returns {Object} extra parameter set to pass to Routing.planTrip
+     */
+    function getOtpOptions() {
+        var mode = UserPreferences.getPreference('mode');
+
+        // options to pass to OTP as-is
+        var otpOptions = {
+            mode: mode,
+            arriveBy: UserPreferences.getPreference('arriveBy'),
+            maxWalkDistance: UserPreferences.getPreference('maxWalk')
+        };
+
+        if (mode.indexOf('BICYCLE') > -1) {
+            // set bike trip optimization option
+            var bikeTriangle = UserPreferences.getPreference('bikeTriangle');
+            bikeTriangle = Utils.getBikeTriangle(bikeTriangle);
+            if (bikeTriangle) {
+                $.extend(otpOptions, {optimize: 'TRIANGLE'}, bikeTriangle);
+            }
+        } else {
+            $.extend(otpOptions, { wheelchair: UserPreferences.getPreference('wheelchair') });
+        }
+
+        return otpOptions;
     }
 
     function setError(message) {
