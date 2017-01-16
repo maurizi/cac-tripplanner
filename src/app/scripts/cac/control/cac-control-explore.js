@@ -65,6 +65,9 @@ CAC.Control.Explore = (function (_, $, Geocoder, MapTemplates, HomeTemplates, Ro
 
         // update isochrone on slider move
         $(options.selectors.isochroneSlider).change(setOptions);
+
+        // initialize slider text value
+        $(options.selectors.isochroneOutput).val($(options.selectors.isochroneSlider).val());
     }
 
     var debouncedFetchIsochrone = _.debounce(fetchIsochrone, ISOCHRONE_DEBOUNCE_MILLIS);
