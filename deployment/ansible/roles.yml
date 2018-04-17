@@ -1,5 +1,6 @@
-- src: azavea.opentripplanner
-  version: 1.0.8
+- name: azavea.opentripplanner
+  src: https://github.com/azavea/ansible-opentripplanner
+  version: feature/tnation/unpin-java-version
 
 - src: azavea.nginx
   version: 0.3.1
