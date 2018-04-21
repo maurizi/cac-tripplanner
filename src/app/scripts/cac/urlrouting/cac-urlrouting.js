@@ -5,6 +5,9 @@
  * enables some URL navigation and facilitates the interaction between that and UserPreferences.
  */
 
+// TODO: New router rules:
+// updateUrl()
+// clearUrl()
 CAC.UrlRouting.UrlRouter = (function (_, $, UserPreferences, Utils, Navigo) {
 
     'use strict';
@@ -69,6 +72,7 @@ CAC.UrlRouting.UrlRouter = (function (_, $, UserPreferences, Utils, Navigo) {
      *    can be checked inside the controllers, so handle it here.
      * 2. Setting `updatingUrl`, which gets read by the routing handler as a signal to cancel.
      */
+    // TODO: Investigate scary bullet point #1
     function updateUrl(url) {
         if (decodeURI(location.search) === decodeURI(url.slice(1))) {
             return;
@@ -91,6 +95,7 @@ CAC.UrlRouting.UrlRouter = (function (_, $, UserPreferences, Utils, Navigo) {
      * active, but clears the URL because the URL-manipulation done by Directions and Explore
      * assume/require that they be at /
      */
+    // TODO: This seems like a hot mess, investigate further
     function loadExplore() {
         UserPreferences.setPreference('method', 'explore');
         router.pause();
