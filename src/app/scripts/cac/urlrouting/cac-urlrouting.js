@@ -22,8 +22,8 @@ CAC.UrlRouting.UrlRouter = (function (_, $, UserPreferences, Utils, route) {
     var EXPLORE_ENCODE = SHARED_ENCODE.concat(['placeId', 'exploreMinutes']);
 
     var DIRECTIONS_ENCODE = SHARED_ENCODE.concat(['destination',
-                                                 'destinationText',
-                                                 'waypoints']);
+                                                  'destinationText',
+                                                  'waypoints']);
 
     var events = $({});
     var eventNames = {
@@ -52,6 +52,7 @@ CAC.UrlRouting.UrlRouter = (function (_, $, UserPreferences, Utils, route) {
     UrlRouter.prototype.clearUrl = clearUrl;
     UrlRouter.prototype.buildExploreUrlFromPrefs = buildExploreUrlFromPrefs;
     UrlRouter.prototype.buildDirectionsUrlFromPrefs = buildDirectionsUrlFromPrefs;
+    UrlRouter.prototype.directionsPrefsMissingFromUrl = directionsPrefsMissingFromUrl;
     UrlRouter.prototype.events = events;
     UrlRouter.prototype.eventNames = eventNames;
 
@@ -66,12 +67,12 @@ CAC.UrlRouting.UrlRouter = (function (_, $, UserPreferences, Utils, route) {
      *    can be checked inside the controllers, so handle it here.
      * 2. Setting `updatingUrl`, which gets read by the routing handler as a signal to cancel.
      */
-    function updateUrl(url) {
+    function updateUrl(url, replaceState) {
         if (decodeURI(location.pathname + location.search) === decodeURI(url.slice(1))) {
             return;
         }
         updatingUrl = true;
-        route(url, undefined /* Title */, false /* replace state */);
+        route(url, undefined /* Title */, replaceState);
     }
 
     function clearUrl() {
@@ -213,6 +214,18 @@ CAC.UrlRouting.UrlRouter = (function (_, $, UserPreferences, Utils, route) {
             }
         });
         return Utils.encodeUrlParams(opts);
+    }
+
+    function directionsPrefsMissingFromUrl(url) {
+        return prefsMissingFromUrl(DIRECTIONS_ENCODE, url);
+    }
+
+    function prefsMissingFromUrl(fields, url) {
+        var params = Utils.getUrlParams();
+        return _.some(fields, function(field) {
+            var pref = UserPreferences.getPreference(field, undefined);
+            return _.isUndefined(params[field]) != _.isUndefined(pref);
+        });
     }
 
     function makeLocation(coords, name) {

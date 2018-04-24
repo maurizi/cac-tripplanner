@@ -445,7 +445,7 @@ CAC.Control.Directions = (function (_, $, moment, Control, Routing, UserPreferen
 
     // Updates the URL to match the currently-selected options
     function updateUrl() {
-        urlRouter.updateUrl(urlRouter.buildDirectionsUrlFromPrefs());
+        urlRouter.updateUrl(urlRouter.buildDirectionsUrlFromPrefs(), replaceUrlState);
     }
 
     /** Helper to save current directions origin or destination to user preferences.
@@ -496,7 +496,7 @@ CAC.Control.Directions = (function (_, $, moment, Control, Routing, UserPreferen
 
         if (tabControl.isTabShowing(tabControl.TABS.DIRECTIONS)) {
             // get nearby places if no destination has been set yet
-            planTripOrShowPlaces();
+            planTripOrShowPlaces(true /* replace state */);
         } else {
             // explore tab visible
             showPlaces(true);
