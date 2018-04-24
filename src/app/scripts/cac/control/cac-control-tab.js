@@ -75,7 +75,6 @@ CAC.Control.Tab = (function ($) {
             this.$body.addClass(newBodyClass);
 
             if (currentTab === TABS.HOME && this.router) {
-                // TODO: New router needs to clear URLS
                 this.router.clearUrl();
             }
 

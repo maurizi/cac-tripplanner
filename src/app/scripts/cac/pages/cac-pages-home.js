@@ -132,7 +132,6 @@ CAC.Pages.Home = (function ($, FilterOptions, ModeOptions,  MapControl, TripOpti
         directionsFormControl.events.on(directionsFormControl.eventNames.selected,
                                         $.proxy(onTypeaheadSelected, this));
 
-        // TODO
         urlRouter.events.on(urlRouter.eventNames.changed, onUrlChanged);
 
         // re-initialize filter control after templated HTML rewritten

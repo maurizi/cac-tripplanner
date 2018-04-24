@@ -445,7 +445,6 @@ CAC.Control.Directions = (function (_, $, moment, Control, Routing, UserPreferen
 
     // Updates the URL to match the currently-selected options
     function updateUrl() {
-        // TODO
         urlRouter.updateUrl(urlRouter.buildDirectionsUrlFromPrefs());
     }
 

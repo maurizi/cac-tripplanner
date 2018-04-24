@@ -324,7 +324,6 @@ CAC.Control.Explore = (function (_, $, MapTemplates, HomeTemplates, Places, Rout
      * so loading a URL with that param will cause the selected location to be re-selected.
      */
     function updateUrl() {
-        // TODO
         urlRouter.updateUrl(urlRouter.buildExploreUrlFromPrefs());
     }
 
